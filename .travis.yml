@@ -36,7 +36,6 @@ after_success:
     ./.travis.scripts/mvn.sh -P github-site site  fi
 deploy:
   provider: script
-  script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-nexus deploy"
   script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-bintray deploy"
   skip_cleanup: true
   on:
@@ -46,3 +45,7 @@ branches:
   - gh-pages
   - master
 #  - /^v[0-9]/
+env:
+  matrix:
+    secure: sbWo2B0CeC6d5yFdb3V44brLRLsDxIiCmnZ3t/7+gBlnb58SseyxBCOYDqhtE8YHnFIo+/4iSDJnsEiAO1fXqakDm7k/ZzI/oCnG8u8/qAjcpoNYapR8vun0s4+Ix3aMDjsp6GSl0dtqsOGLZOI3lnP1liHfb885mvL44OMACsD3P/JRYF5v4lvYakx1qmsJbl2fRbKvg/oaA5SXUR44om5cVujDxnHmJ7NP2tHqhlb3QNAI09Y/TfboIKID0ApACSQrEBEi0q1rZTg3XWJSanA7/Ke4UmVpgl5VdqW1D1w3GUgRWREG+nN1tQp6xe0Yy4729kIo6nUIiIQRZNLbXliI+n5WK6qB1mgAh4mS6jP/W/ZomqkbI0SkQLeLlP5txs+nvYSKpwCHQgeEyCyqKlFj/VsxerRNNzMGeIhp7CHR82yre+gKqRD1vAfBkO3pwqr8D+RlRRWRODY8BwfBoZeTpyGd3wD8ksbrXzuCxki5R6n2wajm9iW+TaJzz6QwszdKt0xJK5mb/OtkYTwCZmq46XBQU6LXXv5BjDAYYqWfKhVe7W74i6IiDFjqhrmCbBRITqyJ8l5rzkFcFnbUlucBNdmsKldgRTMTEQmpu8TtGB9b8C9Vy4r0MS1+8HCZAMNmVvuxHMS9/ZSMgn5CM9omS3SbiIzjPxNkbULvzTM=
+

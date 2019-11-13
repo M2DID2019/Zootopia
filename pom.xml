@@ -76,6 +76,19 @@
     </developers-->
     <!-- ADAPTER les métadonnées -->
 
+    <profiles>
+        <profile>
+            <id>stage-devel-bintray</id>
+            <distributionManagement>
+                <repository>
+                    <id>bintray-atobodel-projetJava</id>
+                    <name>atobodel-projetJava</name>
+                    <url>https://api.bintray.com/maven/atobodel/projetJava/Zootopia/;publish=1</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
