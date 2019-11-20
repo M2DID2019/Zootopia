@@ -6,9 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 
-/**
- * Hello world!
- */
 public class App {
     @SuppressWarnings("unused")
     private static final Class[] shadeHack = {org.apache.log4j.RollingFileAppender.class,

@@ -6,5 +6,15 @@ import javax.persistence.Entity;
 
 @Entity
 public class Aigle extends Animal {
-    //TODO
+    public Aigle() {
+    }
+
+    public Aigle(String nom) {
+        super(nom);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Je suis un aigle.";
+    }
 }
