@@ -7,18 +7,19 @@ import java.util.Set;
 
 
 public class Dao implements CRUDService {
+    // Verifier le fonctionnement avec JTA et adapter l'EJB avec la diapo 19
 
     @PersistenceContext(unitName = "animaux")
     private EntityManager em;
-    private EntityTransaction transac = em.getTransaction();
+//    private EntityTransaction transac = em.getTransaction();
 
 
     @Override
     public Object create(Object t) {
-        this.transac.begin();
+//        this.transac.begin();
         this.em.persist(t);
         //this.em.flush(); //ecrit direct en base
-        this.transac.commit();
+//        this.transac.commit();
         this.em.refresh(t); //actualise l objet par rapport a la base
         return t;
     }
@@ -35,10 +36,10 @@ public class Dao implements CRUDService {
 
     @Override
     public void delete(Class type, Object id) {
-        this.transac.begin();
+//        this.transac.begin();
         Object ref = this.em.getReference(type, id);
         this.em.remove(ref);
-        this.transac.commit();
+//        this.transac.commit();
     }
 
     @Override

@@ -6,9 +6,12 @@
              version="2.1">
     <persistence-unit name="animaux" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <jta-data-source>jdbc/postgres</jta-data-source>
+        <jta-data-source>jdbc/postgres-pool</jta-data-source>
         <class>fr.univtln.M2DID2019.Zootopia.vivants.oiseaux.Aigle</class>
         <class>fr.univtln.M2DID2019.Zootopia.vivants.mammiferes.Vache</class>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        </properties>
     </persistence-unit>
 
 </persistence>

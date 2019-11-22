@@ -3,15 +3,20 @@ package fr.univtln.M2DID2019.Zootopia.vivants;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Zoo {
+@Entity
+public class Zoo implements Serializable {
 
-    @Getter @Setter
+    @Getter @Setter @Id
     private String nom;
 
-    @Getter @Setter
+    @Getter @Setter @OneToMany(mappedBy = "zoo")
     private static Set<Animal> animaux = new TreeSet<>();
 
     public void addAnimal(Animal animal){
