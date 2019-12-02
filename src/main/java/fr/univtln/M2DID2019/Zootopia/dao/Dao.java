@@ -1,13 +1,15 @@
 package fr.univtln.M2DID2019.Zootopia.dao;
 
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Named;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class Dao implements CRUDService {
-    // Verifier le fonctionnement avec JTA et adapter l'EJB avec la diapo 19
 
     @PersistenceContext(unitName = "animaux")
     private EntityManager em;
@@ -20,7 +22,7 @@ public class Dao implements CRUDService {
         this.em.persist(t);
         //this.em.flush(); //ecrit direct en base
 //        this.transac.commit();
-        this.em.refresh(t); //actualise l objet par rapport a la base
+        //this.em.refresh(t); //actualise l objet par rapport a la base
         return t;
     }
 

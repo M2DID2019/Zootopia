@@ -10,6 +10,7 @@
         <lsisnexus.login>alexandre-tobo-delaleu@etud.univ-tln.fr</lsisnexus.login>
         <!-- the default Main class -->
         <app.main.class>fr.univtln.M2DID2019.Zootopia.App</app.main.class>
+        <jersey-version>1.19</jersey-version>
     </properties>
     <!-- ADAPTER LES PROPRIETES SUIVANTES -->
 
@@ -121,6 +122,19 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>${jersey-version}</version>
+<!--            <scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey-version}</version>
+<!--            <scope>provided</scope>-->
+        </dependency>
 
         <dependency>
             <groupId>javax</groupId>

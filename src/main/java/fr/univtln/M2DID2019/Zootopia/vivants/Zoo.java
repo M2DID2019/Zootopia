@@ -17,10 +17,11 @@ public class Zoo implements Serializable {
     private String nom;
 
     @Getter @Setter @OneToMany(mappedBy = "zoo")
-    private static Set<Animal> animaux = new TreeSet<>();
+    private Set<Animal> animaux = new TreeSet<>();
 
     public void addAnimal(Animal animal){
         this.animaux.add(animal);
+        animal.setZoo(this);
     }
 
     public Zoo(String nom) {
@@ -30,4 +31,8 @@ public class Zoo implements Serializable {
     public Zoo() {
     }
 
+    @Override
+    public String toString() {
+        return "Bienvenue au zoo : "+this.getNom()+".";
+    }
 }

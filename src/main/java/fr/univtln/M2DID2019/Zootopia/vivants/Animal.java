@@ -3,16 +3,15 @@ package fr.univtln.M2DID2019.Zootopia.vivants;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@MappedSuperclass
 public abstract class Animal implements Comparable<Animal>, Serializable {
     @Getter @Setter
     private String nom;
@@ -22,7 +21,7 @@ public abstract class Animal implements Comparable<Animal>, Serializable {
 //    @Getter @Id
 //    private final int id;
     // Verifier si le generatedvalue fonctionne
-    @Getter @Id @GeneratedValue
+    @Id @GeneratedValue @Getter
     private int id;
 
     @Getter @Setter @ManyToOne
@@ -40,6 +39,10 @@ public abstract class Animal implements Comparable<Animal>, Serializable {
 //        ID++;
 //        id = ID;
         faune.add(this);
+    }
+
+    public void addZoo(Zoo zoo){
+        zoo.addAnimal(this);
     }
 
     @Override
