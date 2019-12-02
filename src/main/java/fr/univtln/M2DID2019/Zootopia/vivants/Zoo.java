@@ -3,14 +3,13 @@ package fr.univtln.M2DID2019.Zootopia.vivants;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Entity
+@NamedQuery(name = "findAllZoo", query = "SELECT z FROM Zoo z")
 public class Zoo implements Serializable {
 
     @Getter @Setter @Id
