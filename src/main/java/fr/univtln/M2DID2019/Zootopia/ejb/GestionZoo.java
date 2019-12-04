@@ -15,9 +15,8 @@ public class GestionZoo implements IZooBean, IZooBeanRemote {
     @Inject private Dao dao;
     @Inject private Zoo zoo;
 
-    public String find(String nom){
-        zoo = (Zoo) dao.find(zoo.getClass(), nom);
-        return zoo.toString();
+    public Zoo find(String nom){
+        return (Zoo) dao.find(zoo.getClass(), nom);
     }
 
     public List<Zoo> findAll(){
@@ -25,8 +24,7 @@ public class GestionZoo implements IZooBean, IZooBeanRemote {
     }
 
     public Zoo create(String nom){
-        zoo.setNom(nom);
-        return (Zoo) dao.create(zoo);
+        return (Zoo) dao.create((new Zoo(nom)));
     }
 
     public void delete(String nom){

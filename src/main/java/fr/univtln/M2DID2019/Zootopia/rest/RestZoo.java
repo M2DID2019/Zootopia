@@ -12,7 +12,7 @@ import java.util.List;
 @Path("/zoo")
 @Stateless
 public class RestZoo {
-    @EJB GestionZoo gestionZoo;
+    @EJB private GestionZoo gestionZoo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -23,7 +23,7 @@ public class RestZoo {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public String getZoo(@PathParam("id") final String ID) {
+    public Zoo getZoo(@PathParam("id") final String ID) {
         return gestionZoo.find(ID);
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IZooBean {
 
-    String find(String nom);
+    Zoo find(String nom);
 
     List<Zoo> findAll();
 
