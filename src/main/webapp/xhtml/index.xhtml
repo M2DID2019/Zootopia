@@ -31,10 +31,13 @@
     <h:form id="form">
     <p:dataList value="#{ZooBBean.allZoo}" var="zoo">
         <f:facet name="header">
-            Basic
+            Liste Zoos
         </f:facet>
         #{zoo.nom}
     </p:dataList>
+        <p:link outcome="formulaireZoo" value="Ajouter un Zoo">
+            <!--<f:param name="productId" value="10" />-->
+        </p:link>
     </h:form>
     </body>
 </f:view>

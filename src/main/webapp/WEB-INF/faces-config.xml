@@ -8,7 +8,7 @@
         <!--<from-view-id>/xhtml/index.xhtml</from-view-id>-->
         <!--<navigation-case>-->
             <!--<from-outcome>success</from-outcome>-->
-            <!--<to-view-id>/xhtml/viewArticle.xhtml</to-view-id>-->
+            <!--<to-view-id>/xhtml/formulaireZoo.xhtml</to-view-id>-->
         <!--</navigation-case>-->
     <!--</navigation-rule>-->
   

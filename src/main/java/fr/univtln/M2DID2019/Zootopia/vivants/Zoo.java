@@ -1,5 +1,7 @@
 package fr.univtln.M2DID2019.Zootopia.vivants;
 
+import fr.univtln.M2DID2019.Zootopia.annotation.TestCase;
+import fr.univtln.M2DID2019.Zootopia.enumeration.CaseMode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,7 @@ import java.util.TreeSet;
 @NamedQuery(name = "findAllZoo", query = "SELECT z FROM Zoo z")
 public class Zoo implements Serializable {
 
-    @Getter @Setter @Id
+    @Getter @Setter @Id @TestCase(CaseMode.UPPER)
     private String nom;
 
     @Getter @Setter @OneToMany(mappedBy = "zoo")

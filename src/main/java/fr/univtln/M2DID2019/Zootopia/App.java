@@ -4,7 +4,10 @@ import org.apache.log4j.PatternLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
+import java.util.Properties;
 
 public class App {
     @SuppressWarnings("unused")
@@ -19,5 +22,11 @@ public class App {
         logger.info("App started.");
         logger.debug("About to talk :");
         System.out.println("Hello world !");
+        Properties myProperty= new Properties();
+        try {
+            myProperty.load(App.class.getClassLoader().getResourceAsStream("ValidationMessages.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
