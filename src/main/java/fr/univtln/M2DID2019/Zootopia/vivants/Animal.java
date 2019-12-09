@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +13,12 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@MappedSuperclass
 public abstract class Animal implements Comparable<Animal>, Serializable {
-    @Getter @Setter
+    @Getter @Setter @NotNull @Pattern(regexp="[A-Z][a-z]+", message = "Le nom de l'animal ne peut contenir que des lettres")
     private String nom;
 
-//    private static int ID=0;
-
-//    @Getter @Id
-//    private final int id;
     // Verifier si le generatedvalue fonctionne
-    @Id @GeneratedValue @Getter
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Getter
     private int id;
 
     @Getter @Setter @ManyToOne
@@ -31,13 +28,10 @@ public abstract class Animal implements Comparable<Animal>, Serializable {
     private static List<Animal> faune = new ArrayList<>();
 
     public Animal() {
-//        id = 0;
     }
 
     public Animal(String nom) {
         this.nom = nom;
-//        ID++;
-//        id = ID;
         faune.add(this);
     }
 
