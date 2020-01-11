@@ -6,22 +6,17 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <body>
+<h:head></h:head>
+    <h:body>
     <h1>Formulaire Zoo</h1>
     <h:form>
-    <p:panel header="Validate">
-    <p:messages>
-        <p:autoUpdate />
-    </p:messages>
-        <p:inputText id="regex" value="#{FormulaireZooBBean.nom}" validatorMessage="Votre zoo ne doit pas avoir un nom vide.">
-            <f:validateRegex pattern="^[a-zA-Z]+$" />
+        <p:growl id="growl" showDetail="true" sticky="true" />
+        <p:inputText id="regex" value="#{FormulaireZooBBean.nom}" validatorMessage="Votre zoo ne doit pas avoir un nom vide ni en minuscule.">
+            <f:validateRegex pattern="^[A-Z]+$" />
         </p:inputText>
         <p:message for="regex" />
-        <h:outputText value="#{FormulaireZooBBean.nom} ajouté !" />
-    </p:panel>
-        <p:link outcome="index" value="Retourner à la liste des zoos"/>
+        <p:commandButton value="Ajouter" action="#{FormulaireZooBBean.afficheMessage}" update="growl" />
     </h:form>
-    </body>
-</f:view>
+        <p:link outcome="index" value="Retourner à la liste des zoos"/>
+    </h:body>
 </html>

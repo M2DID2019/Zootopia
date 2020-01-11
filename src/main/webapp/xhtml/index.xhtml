@@ -20,12 +20,11 @@
         padding-left: 20px;
     }
 </style>
-<f:view>
-    <head>
+    <h:head>
         <title>Affichage Zoo</title>
-        <link rel="stylesheet" type="text/css" href="styles.css" />
-    </head>
-    <body>
+        <link rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
     <h1>Zoo</h1>
 
     <h:form id="form">
@@ -35,10 +34,8 @@
         </f:facet>
         #{zoo.nom}
     </p:dataList>
-        <p:link outcome="formulaireZoo" value="Ajouter un Zoo">
-            <!--<f:param name="productId" value="10" />-->
-        </p:link>
     </h:form>
-    </body>
-</f:view>
+        <p:link outcome="formulaireZoo" value="Ajouter un Zoo">
+        </p:link>
+    </h:body>
 </html>
