@@ -61,4 +61,8 @@ public abstract class Animal implements Comparable<Animal>, Serializable {
     public int compareTo(Animal o) {
         return (id==o.getId())?0:1;
     }
+
+    public String getClasse(){
+        return this.getClass().getSimpleName();
+    }
 }

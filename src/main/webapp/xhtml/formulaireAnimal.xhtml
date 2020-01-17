@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+    </h:head>
+    <h:body>
+    <h1>Formulaire Animal</h1>
+    <h:form>
+        <p:messages>
+            <p:autoUpdate />
+        </p:messages>
+
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <p:outputLabel for="animal" value="Animal:" />
+            <p:selectOneMenu id="animal" value="#{FormulaireAnimalBBean.type}" dynamic="true" style="width:125px">
+                <f:selectItem itemLabel="Espece" itemValue="" />
+                <f:selectItems value="#{FormulaireAnimalBBean.types}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="nom" value="Nom:" />
+            <p:inputText id="nom" value="#{FormulaireAnimalBBean.nom}" validatorMessage="L'animal doit avoir un nom."/>
+
+            <p:commandButton value="Submit" action="#{FormulaireAnimalBBean.creer}" icon="pi pi-check" />
+
+        </h:panelGrid>
+        <p:link outcome="indexAnimal" value="Retourner à la liste des animaux"/>
+    </h:form>
+    </h:body>
+</html>
