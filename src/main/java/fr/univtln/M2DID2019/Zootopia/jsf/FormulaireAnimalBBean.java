@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,9 +27,16 @@ public class FormulaireAnimalBBean implements Serializable {
     @Getter @Setter
     private List<String> types;
 
+    public void afficheMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        context.addMessage(null, new FacesMessage("Succès",  "L'animal " + nom + " a été ajouté !") );
+    }
+
     public void creer() {
         nom = nom.substring(0,1).toUpperCase()+nom.substring(1).toLowerCase();
         gestionAnimal.create(nom, GestionAnimal.Animaux.valueOf(type));
+        afficheMessage();
     }
 
     @PostConstruct
