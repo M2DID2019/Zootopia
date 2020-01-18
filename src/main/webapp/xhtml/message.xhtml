@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!--<f:view>-->
+    <h:head>
+
+    </h:head>
+    <h:body>
+    <h1>Message</h1>
+    <h:form id="form">
+        <p:remoteCommand name="onTabChangeProcess" process="ChannelsTab, @this"/>
+        <p:tabView dynamic="true" cache="true" effect="fold" id="ChannelsTab" onTabChange="onTabChangeProcess()" activeIndex="#{MessageBBean.tabindex}" widgetVar="tab">
+            <p:ajax event="tabChange" listener="#{MessageBBean.onTabChange}" update="ChannelsTab" process="ChannelsTab"/>
+
+            <p:tab title="Channel1" id="Channel1">
+                <h:panelGrid columns="2" cellpadding="10" id="TabC1">
+                    <!--<h:outputText value="#{MessageBBean.channel1Message}" id="MessageC1"/>-->
+                    <ui:repeat value="#{MessageBBean.channel1Message}" var="message"> <h:outputText value="#{message}"/> <br/> </ui:repeat>
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Channel2">
+                <h:panelGrid columns="2" cellpadding="10" id="TabC2">
+                    <ui:repeat value="#{MessageBBean.channel2Message}" var="message"> <h:outputText value="#{message}"/> <br/> </ui:repeat>
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Channel3">
+                <h:panelGrid columns="2" cellpadding="10" id="TabC3">
+                    <ui:repeat value="#{MessageBBean.channel3Message}" var="message"> <h:outputText value="#{message}"/> <br/> </ui:repeat>
+                </h:panelGrid>
+            </p:tab>
+        </p:tabView>
+        <br/>
+        <!--<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">-->
+            <p:outputLabel for="@next" value="Channel:" />
+            <p:selectOneMenu id="channel" value="#{MessageBBean.channel}" style="width:125px" dir="channel">
+                <f:selectItem itemLabel="Channel1" itemValue="Channel1" />
+                <f:selectItem itemLabel="Channel2" itemValue="Channel2" />
+                <f:selectItem itemLabel="Channel3" itemValue="Channel3" />
+            </p:selectOneMenu>
+        <br/>
+        <!--</h:panelGrid>-->
+        <p:inputTextarea rows="1" cols="20" value="#{MessageBBean.message}">
+            <!--<p:ajax event="keyup" update="#{MessageBBean.message}"/>-->
+        </p:inputTextarea>
+        <br/>
+        <p:commandButton value="Envoyer" action="#{MessageBBean.publishMessage}"/>
+    </h:form>
+    </h:body>
+<!--</f:view>-->
+</html>

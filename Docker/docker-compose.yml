@@ -13,6 +13,16 @@ services:
             - data-payara-autodeploy:/opt/payara/appserver/glassfish/domains/production/autodeploy
         depends_on:
             - db
+            - redisMaster1
+            - redisMaster2
+            - redisMaster3
+            - redisSlave1
+            - redisSlave2
+            - redisSlave3
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - serveur
 
     db:
         image: postgres:11.5
@@ -24,6 +34,139 @@ services:
             PGDATA: /var/lib/postgresql/data/pgdata
         volumes:
             - data-pgdata:/var/lib/postgresql/data/pgdata
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - db
+
+    redisMaster1:
+        image: redis:5.0.7
+        container_name: redisMaster1
+        ports:
+            - "6379:6379"
+        #    volumes:
+        #      - data-redisdata:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisMaster1
+                ipv4_address: 172.21.0.2
+        #    links:
+        #      - db2:redis2
+
+    redisMaster2:
+        image: redis:5.0.7
+        container_name: redisMaster2
+        ports:
+            - "6380:6379"
+        #    volumes:
+        #      - data-redisdata2:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisMaster2
+                ipv4_address: 172.21.0.3
+    #    links:
+    #      - db1:redis
+
+    redisMaster3:
+        image: redis:5.0.7
+        container_name: redisMaster3
+        ports:
+            - "6381:6379"
+        #    volumes:
+        #      - data-redisdata3:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisMaster3
+                ipv4_address: 172.21.0.4
+    #    links:
+    #      - db1:redis
+
+    redisSlave1:
+        image: redis:5.0.7
+        container_name: redisSlave1
+        ports:
+            - "6382:6379"
+        #    volumes:
+        #      - data-redisdata4:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisSlave1
+                ipv4_address: 172.21.0.5
+    #    links:
+    #      - db1:redis
+
+    redisSlave2:
+        image: redis:5.0.7
+        container_name: redisSlave2
+        ports:
+            - "6383:6379"
+        #    volumes:
+        #      - data-redisdata5:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisSlave2
+                ipv4_address: 172.21.0.6
+    #    links:
+    #      - db1:redis
+
+    redisSlave3:
+        image: redis:5.0.7
+        container_name: redisSlave3
+        ports:
+            - "6384:6379"
+        #    volumes:
+        #      - data-redisdata6:/data
+        command: redis-server --port 6379 --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisSlave3
+                ipv4_address: 172.21.0.7
+    #    links:
+    #      - db1:redis
+
+    redisCli:
+        image: redis:5.0.7
+        container_name: redisCli
+        ports:
+            - "6385:6379"
+        command:  bash -c  "echo 'yes' | /usr/local/bin/redis-cli --cluster create 172.21.0.2:6379 172.21.0.3:6379 172.21.0.4:6379 172.21.0.7:6379 172.21.0.5:6379 172.21.0.6:6379 --cluster-replicas 1"
+        networks:
+            redis-cluster-net:
+                aliases:
+                    - redisCli
+        depends_on:
+            - redisMaster1
+            - redisMaster2
+            - redisMaster3
+            - redisSlave1
+            - redisSlave2
+            - redisSlave3
+
 volumes:
   data-payara-autodeploy:
   data-pgdata:
+  data-redisdata:
+  data-redisdata2:
+  data-redisdata3:
+  data-redisdata4:
+  data-redisdata5:
+  data-redisdata6:
+
+networks:
+    redis-cluster-net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.21.0.0/24

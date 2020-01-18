@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head></h:head>
+<h:body>
+    <h1>Insertion</h1>
+    <h2>Valeur</h2>
+    <h3>Stockage String</h3>
+    <h:form>
+        <p:growl id="growlValeur" life="2000" />
+        <h:panelGrid columns="2" id="panelEnvoie">
+            <h:outputText value="Clé: "/>
+            <h:inputText id="cle" value="#{InsertionBBean.cle}"/>
+            <h:outputText value="Valeur: "/>
+            <h:inputText id="valeur" value="#{InsertionBBean.valeur}"/>
+        </h:panelGrid>
+        <br/>
+        <p:commandButton value="Envoyer" id="ajaxValeur" update="growlValeur" action="#{InsertionBBean.persisteValeur}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+        <br/>
+        <h:panelGrid columns="3" id="panelRecup">
+            <h:outputText value="Clé: "/>
+            <p:autoComplete id="cleRecup" value="#{InsertionBBean.cleRecup}" completeMethod="#{InsertionBBean.completeRecup}"/>
+            <h:outputText value="#{InsertionBBean.valeurRecup}" id="afficheVal"/>
+        </h:panelGrid>
+        <br/>
+        <p:commandButton value="Récupérer" id="ajaxRecup" update="afficheVal" action="#{InsertionBBean.recupValeur}" style="margin-right:20px;" styleClass="ui-priority-primary"/>
+    </h:form>
+
+    <h2>Personne</h2>
+    <h3>Stockage Byte[]</h3>
+    <h:form>
+        <p:growl id="growlValeur2" life="2000" />
+        <h:panelGrid columns="2">
+            <h:outputText value="Nom: "/>
+            <h:inputText id="nom" value="#{InsertionBBean.nom}"/>
+            <h:outputText value="Age: "/>
+            <h:inputText id="age" value="#{InsertionBBean.age}"/>
+        </h:panelGrid>
+        <p:keyFilter for="nom" regEx="/[A-Za-z]/i"/>
+        <p:keyFilter for="age" mask="pint"/>
+        <br/>
+        <p:commandButton value="Envoyer" id="ajaxPersonne" update="growlValeur2" action="#{InsertionBBean.persistePersonne}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+        <br/>
+        <h:panelGrid columns="3">
+            <h:outputText value="Nom: "/>
+            <p:autoComplete value="#{InsertionBBean.nomRecup}" completeMethod="#{InsertionBBean.completeRecupPersonne}"/>
+            <h:outputText value="#{InsertionBBean.personne}" id="affichePers"/>
+        </h:panelGrid>
+        <br/>
+        <p:commandButton value="Récupérer" id="ajaxRecupPersonne" update="affichePers" action="#{InsertionBBean.recupPersonne}" style="margin-right:20px;" styleClass="ui-priority-primary"/>
+    </h:form>
+</h:body>
+</html>
