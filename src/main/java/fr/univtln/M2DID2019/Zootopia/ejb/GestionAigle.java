@@ -1,6 +1,7 @@
 package fr.univtln.M2DID2019.Zootopia.ejb;
 
 import fr.univtln.M2DID2019.Zootopia.dao.Dao;
+import fr.univtln.M2DID2019.Zootopia.dao.DaoRedis;
 import fr.univtln.M2DID2019.Zootopia.vivants.oiseaux.Aigle;
 
 import javax.ejb.LocalBean;
@@ -14,6 +15,7 @@ import java.util.Map;
 @LocalBean
 public class GestionAigle implements IAigleBean, IAigleBeanRemote{
     @Inject private Dao dao;
+    @Inject private DaoRedis daoRedis;
 
     @Override
     public List<Aigle> find(String nom) {
@@ -45,5 +47,18 @@ public class GestionAigle implements IAigleBean, IAigleBeanRemote{
     @Override
     public void updateNom(String nom, String ID) {
 
+    }
+
+    // Partie Redis, je garde la partie PostgreSQL si on veut utiliser Redis comme cache
+
+    public Aigle setAigleRedis(Aigle aigle) {
+        String cle = "A:" + aigle.getNom();
+        daoRedis.setValeur(cle.getBytes(), Aigle.serialize(aigle));
+        return aigle;
+    }
+
+    public Aigle getZooRedis(String nom) {
+        String cle = "A:" + nom;
+        return Aigle.deserialize(daoRedis.getValeur(cle.getBytes()));
     }
 }

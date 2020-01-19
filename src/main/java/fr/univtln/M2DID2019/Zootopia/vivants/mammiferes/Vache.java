@@ -1,6 +1,7 @@
 package fr.univtln.M2DID2019.Zootopia.vivants.mammiferes;
 
 import fr.univtln.M2DID2019.Zootopia.vivants.Animal;
+import org.apache.commons.lang3.SerializationUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -21,5 +22,13 @@ public class Vache extends Animal {
     @Override
     public String toString() {
         return super.toString() + "Je suis une vache.";
+    }
+
+    public static byte[] serialize(Vache vache) {
+        return SerializationUtils.serialize(vache);
+    }
+
+    public static Vache deserialize(byte[] bytes) {
+        return SerializationUtils.deserialize(bytes);
     }
 }

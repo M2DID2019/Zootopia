@@ -1,6 +1,7 @@
 package fr.univtln.M2DID2019.Zootopia.ejb;
 
 import fr.univtln.M2DID2019.Zootopia.dao.Dao;
+import fr.univtln.M2DID2019.Zootopia.dao.DaoRedis;
 import fr.univtln.M2DID2019.Zootopia.vivants.mammiferes.Vache;
 
 import javax.ejb.LocalBean;
@@ -14,6 +15,7 @@ import java.util.Map;
 @LocalBean
 public class GestionVache implements IVacheBean, IVacheBeanRemote {
     @Inject private Dao dao;
+    @Inject private DaoRedis daoRedis;
 
     @Override
     public List<Vache> find(String nom) {
@@ -45,5 +47,19 @@ public class GestionVache implements IVacheBean, IVacheBeanRemote {
     @Override
     public void updateNom(String nom, String ID) {
 
+    }
+
+    // Partie Redis, je garde la partie PostgreSQL si on veut utiliser Redis comme cache
+
+    public Vache setVacheRedis(Vache vache) {
+        // C pour Cow
+        String cle = "C:" + vache.getNom();
+        daoRedis.setValeur(cle.getBytes(), Vache.serialize(vache));
+        return vache;
+    }
+
+    public Vache getZooRedis(String nom) {
+        String cle = "C:" + nom;
+        return Vache.deserialize(daoRedis.getValeur(cle.getBytes()));
     }
 }

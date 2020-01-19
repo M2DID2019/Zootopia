@@ -28,7 +28,8 @@
     <h1>Zoo</h1>
 
     <h:form id="form">
-    <p:dataList value="#{ZooBBean.allZoo}" var="zoo">
+<!--    <p:dataList value="#{ZooBBean.allZoo}" var="zoo">-->
+     <p:dataList value="#{ZooBBean.allZooRedis}" var="zoo">
         <f:facet name="header">
             Liste Zoos
         </f:facet>

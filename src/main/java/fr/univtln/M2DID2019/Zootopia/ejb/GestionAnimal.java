@@ -2,6 +2,7 @@ package fr.univtln.M2DID2019.Zootopia.ejb;
 
 import fr.univtln.M2DID2019.Zootopia.vivants.Animal;
 import fr.univtln.M2DID2019.Zootopia.vivants.mammiferes.Vache;
+import fr.univtln.M2DID2019.Zootopia.vivants.oiseaux.Aigle;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -29,8 +30,8 @@ public class GestionAnimal {
 
     public Animal create(String nom, Animaux type) {
 
-        if(Animaux.Aigle == type)   return gestionAigle.create(nom);
-        else if(Animaux.Vache == type)  return gestionVache.create(nom);
+        if(Animaux.Aigle == type)   return gestionAigle.setAigleRedis(new Aigle(nom)); //return gestionAigle.create(nom);
+        else if(Animaux.Vache == type)  return gestionVache.setVacheRedis(new Vache(nom)); //return gestionVache.create(nom);
         else return null;
     }
 

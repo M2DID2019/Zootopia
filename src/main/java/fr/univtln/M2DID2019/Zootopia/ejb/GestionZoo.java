@@ -1,6 +1,7 @@
 package fr.univtln.M2DID2019.Zootopia.ejb;
 
 import fr.univtln.M2DID2019.Zootopia.dao.Dao;
+import fr.univtln.M2DID2019.Zootopia.dao.DaoRedis;
 import fr.univtln.M2DID2019.Zootopia.vivants.Zoo;
 
 import javax.ejb.LocalBean;
@@ -14,6 +15,7 @@ public class GestionZoo implements IZooBean, IZooBeanRemote {
 
     @Inject private Dao dao;
     @Inject private Zoo zoo;
+    @Inject private DaoRedis daoRedis;
 
     public Zoo find(String nom){
         return (Zoo) dao.find(zoo.getClass(), nom);
@@ -41,4 +43,17 @@ public class GestionZoo implements IZooBean, IZooBeanRemote {
         zoo.setNom(nom);
         dao.create(zoo);
     }
+
+    // Partie Redis, je garde la partie PostgreSQL si on veut utiliser Redis comme cache
+
+    public void setZooRedis(Zoo zoo) {
+        String cle = "Z:" + zoo.getNom();
+        daoRedis.setValeur(cle.getBytes(), Zoo.serialize(zoo));
+    }
+
+    public Zoo getZooRedis(String nom) {
+        String cle = "Z:" + nom;
+        return Zoo.deserialize(daoRedis.getValeur(cle.getBytes()));
+    }
+
 }

@@ -1,18 +1,17 @@
 package fr.univtln.M2DID2019.Zootopia.insertion;
 
+import fr.univtln.M2DID2019.Zootopia.dao.DaoRedis;
 import org.apache.log4j.Logger;
-import redis.clients.jedis.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Named("InsertionBBean")
 @SessionScoped
@@ -28,42 +27,22 @@ public class InsertionBBean implements Serializable {
     private int age;
     private int ageRecup;
     private List<String> listeCleRecup;
+    @Inject private DaoRedis daoRedis;
 
     @PostConstruct
     public void init() {
-        recupCles();
-    }
-
-    private void recupCles() {
-        try (JedisCluster jedisCluster = new JedisCluster(new HostAndPort("redisMaster1", 6379))) {
-            ScanParams scanParams = new ScanParams().count(1000);
-            Set<String> allKeys = new HashSet<>();
-            for (JedisPool pool : jedisCluster.getClusterNodes().values()) {
-                String cur = ScanParams.SCAN_POINTER_START;
-                do {
-                    try (Jedis jedis = pool.getResource()) {
-                        ScanResult<String> scanResult = jedis.scan(cur, scanParams);
-                        allKeys.addAll(scanResult.getResult());
-                        cur = scanResult.getCursor();
-                    }
-                    if (allKeys.size() >= 1000) break;
-                } while (!cur.equals(ScanParams.SCAN_POINTER_START));
-                if (allKeys.size() >= 1000) break;
-            }
-            //allKeys.stream().forEach(System.out::println);
-            listeCleRecup = new ArrayList<>(allKeys);
-        } catch (Exception e) {logger.error("Erreur: " + e);}
+        listeCleRecup = daoRedis.recupCles();
     }
 
     public void persisteValeur() {
-        try (JedisCluster jedisCluster = new JedisCluster(new HostAndPort("redisMaster1", 6379))) {
-            jedisCluster.set("K:"+cle, valeur);
+        int retour = daoRedis.setValeur("K:"+cle, valeur);
+        if (retour == 1) {
             addMessage("Envoie réussi!!!");
-            //recupCles();
             if (!listeCleRecup.contains("K:"+cle)) {
                 listeCleRecup.add("K:" + cle);
             }
-        } catch (Exception e) {logger.error("Erreur: " + e); addMessage("Une erreur s'est produite");}
+        }
+        else {addMessage("Une erreur s'est produite");}
     }
 
     public List<String> completeRecup(String query) {
@@ -87,29 +66,25 @@ public class InsertionBBean implements Serializable {
     }
 
     public void recupValeur() {
-        try (JedisCluster jedisCluster = new JedisCluster(new HostAndPort("redisMaster1", 6379))) {
-            valeurRecup =  jedisCluster.get("K:"+cleRecup);
-        } catch (Exception e) {logger.error("Erreur: " + e);}
+        valeurRecup = daoRedis.getValeur("K:"+cleRecup);
     }
 
     public void persistePersonne() {
-        try (JedisCluster jedisCluster = new JedisCluster(new HostAndPort("redisMaster1", 6379))) {
-            Personne p1 = new Personne(nom, age);
-            String nomCle = "P:" + p1.getNom();
-            jedisCluster.set(nomCle.getBytes(), Personne.serialize(p1));
+        Personne p1 = new Personne(nom, age);
+        String nomCle = "P:" + p1.getNom();
+        int retour = daoRedis.setValeur(nomCle.getBytes(), Personne.serialize(p1));
+        if (retour == 1) {
             addMessage("Envoie réussi!!!");
-            //recupCles();
             if (!listeCleRecup.contains(nomCle)) {
                 listeCleRecup.add(nomCle);
             }
-        } catch (Exception e) {logger.error("Erreur: " + e);}
+        }
+        else {addMessage("Une erreur s'est produite");}
     }
 
     public void recupPersonne() {
-        try (JedisCluster jedisCluster = new JedisCluster(new HostAndPort("redisMaster1", 6379))) {
-            String recup = "P:" + nomRecup;
-            personne = Personne.deserialize(jedisCluster.get(recup.getBytes()));
-        } catch (Exception e) {logger.error("Erreur: " + e);}
+        String recup = "P:" + nomRecup;
+        personne = Personne.deserialize(daoRedis.getValeur(recup.getBytes()));
     }
 
     public void addMessage(String summary) {

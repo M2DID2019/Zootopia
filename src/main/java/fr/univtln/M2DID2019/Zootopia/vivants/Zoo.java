@@ -4,6 +4,7 @@ import fr.univtln.M2DID2019.Zootopia.annotation.TestCase;
 import fr.univtln.M2DID2019.Zootopia.enumeration.CaseMode;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.SerializationUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,6 +31,14 @@ public class Zoo implements Serializable {
     }
 
     public Zoo() {
+    }
+
+    public static byte[] serialize(Zoo zoo) {
+        return SerializationUtils.serialize(zoo);
+    }
+
+    public static Zoo deserialize(byte[] bytes) {
+        return SerializationUtils.deserialize(bytes);
     }
 
     @Override
